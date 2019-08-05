@@ -24,5 +24,10 @@ bool Coordinate::moveTo(Direction dir, std::vector<std::vector<bool> > &blocked)
             Y++;
             return true;
     }
+	
+    return true;
 }
 
+bool Coordinate::operator==(const Coordinate &other) const {
+	return (other.X == X && other.Y == Y);
+}

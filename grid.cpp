@@ -1,5 +1,4 @@
 #include "grid.h"
-
 Grid::Grid(int n) {
     sizing = n;
     window = new Xwindow(n*7, n*7);
@@ -24,18 +23,27 @@ Grid::Grid(int n) {
             window->fillRectangle(i*7, (n-1)*7, 7, 7, 2);
     }
 
-    snake = Snake(Coordinate(7*7,7*7), blocked, window);
-    curFood = Food(blocked, window);
+    snake = new Snake(Coordinate(10,10), blocked, window);
+    curFood = new Food(blocked, window);
 }
 
 bool Grid::update(bool changed, Direction direction) {
-    if (changed)
-        snake.changeDirection(direction);
+	if (changed)
+        snake->changeDirection(direction);
 
-    int res = snake.moveForward(window, curFood);
+    int res = snake->moveForward(window, *curFood);
     if (res == 0) return false;
 
-    if (res == 2) curFood = Food(blocked, window);
+    if (res == 2) {
+	    delete curFood;
+	    curFood = new Food(blocked, window);
+    }
 
     return true;
+}
+
+Grid::~Grid() {
+	delete window;
+	delete snake;
+	delete curFood;
 }

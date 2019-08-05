@@ -10,14 +10,15 @@
 class Grid
 {
     int sizing;
-    Snake snake;
-    Food curFood;
+    Snake *snake;
+    Food *curFood;
     std::vector<std::vector<bool> > blocked;
     Xwindow *window;
 
 public:
     Grid(int n);
     bool update(bool changed, Direction direction);
+	~Grid();
 };
 
 #endif // _GRID_H

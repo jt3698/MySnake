@@ -2,11 +2,11 @@
 
 Snake::Snake(Coordinate head, std::vector<std::vector<bool> > &blocked, Xwindow *window)
     : blocked(blocked) {
-    length = 3;
+    length = 5;
     for (int i = 1; i <= length; i++) {
         body.push_back(head);
         blocked[head.Y][head.X] = true;
-        window->fillRectangle(head.Y*7, head.X*7, 7, 7, 0);
+        window->fillRectangle(head.X*7, head.Y*7, 7, 7, 0);
         if (!head.moveTo(Direction::W, blocked)) break;
     }
     readyToGrow = false;
@@ -35,14 +35,14 @@ void Snake::changeDirection(Direction dir) {
     }
 }
 
-int Snake::moveForward(const Xwindow *window, const Food &food) {
+int Snake::moveForward(Xwindow *window, Food &food) {
     Coordinate head = body.front();
     Coordinate tail = body.back();
 
     if (!head.moveTo(direction, blocked)) return 0;
 
     if (!readyToGrow) {
-        window->fillRectangle(tail.Y*7, tail.X*7, 7, 7, 1);
+        window->fillRectangle(tail.X*7, tail.Y*7, 7, 7, 1);
         body.pop_back();
         blocked[tail.Y][tail.X] = false;
         length--;
@@ -51,7 +51,7 @@ int Snake::moveForward(const Xwindow *window, const Food &food) {
 
     body.push_front(head);
     blocked[head.Y][head.X] = true;
-    window->fillRectangle(tail.Y*7, tail.X*7, 7, 7, 0);
+    window->fillRectangle(head.X*7, head.Y*7, 7, 7, 0);
     length++;
 
     if (food.where == head) {

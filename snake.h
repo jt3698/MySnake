@@ -23,7 +23,7 @@ public:
     // 0 - Blocked move
     // 1 - Successful move, no food
     // 2 - Successful move with food
-    int moveForward(const Xwindow *window, const Food &food);
+    int moveForward(Xwindow *window, Food &food);
 
     void changeDirection(Direction dir);
 };
